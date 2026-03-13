@@ -452,7 +452,7 @@ section {
   border-radius: 28px;
   overflow: hidden;
   box-shadow: var(--shadow);
-  background: url("./assets/gestion-financiera.jpg") center/cover no-repeat;
+  background: url("../assets/gestion-financiera.jpg") center/cover no-repeat;
 }
 
 .feature-copy {
