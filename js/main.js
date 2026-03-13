@@ -1,5 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   const header = document.querySelector(".topbar");
+  const whatsappFloat = document.querySelector(".whatsapp-float");
+
   const revealElements = document.querySelectorAll(
     ".hero-card, .card, .method-card, .value-card, .industry-card, .feature-copy, .image-tile, .contact-card, .cta-box"
   );
@@ -28,6 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const toggleHeaderStyle = () => {
     if (!header) return;
+
     if (window.scrollY > 20) {
       header.classList.add("scrolled");
     } else {
@@ -43,9 +46,11 @@ document.addEventListener("DOMContentLoaded", () => {
   internalLinks.forEach((link) => {
     link.addEventListener("click", (event) => {
       const targetId = link.getAttribute("href");
+
       if (!targetId || targetId === "#") return;
 
       const targetElement = document.querySelector(targetId);
+
       if (!targetElement) return;
 
       event.preventDefault();
@@ -55,4 +60,11 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
   });
+
+  if (whatsappFloat) {
+    window.setTimeout(() => {
+      whatsappFloat.style.opacity = "1";
+      whatsappFloat.style.transform = "translateY(0) scale(1)";
+    }, 700);
+  }
 });

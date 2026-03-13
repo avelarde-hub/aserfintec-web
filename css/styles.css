@@ -621,8 +621,10 @@ section {
   justify-content: center;
   box-shadow: 0 18px 35px rgba(37, 211, 102, 0.35);
   z-index: 9999;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
   text-decoration: none;
+  opacity: 0;
+  transform: translateY(20px) scale(0.9);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, opacity 0.5s ease;
 }
 
 .whatsapp-float:hover {
@@ -637,17 +639,17 @@ section {
   fill: currentColor;
 }
 
-@media (max-width: 1024px) {
-  .hero-grid,
-  .cta-box,
-  .contact-grid,
-  .services-grid,
-  .method-grid,
-  .values-grid,
-  .industries-grid,
-  .feature-split,
-  .image-strip {
-    grid-template-columns: 1fr;
+@media (max-width: 720px) {
+  .whatsapp-float {
+    width: 58px;
+    height: 58px;
+    right: 16px;
+    bottom: 16px;
+  }
+
+  .whatsapp-float svg {
+    width: 28px;
+    height: 28px;
   }
 }
 
@@ -699,5 +701,10 @@ section {
   .whatsapp-float svg {
     width: 28px;
     height: 28px;
+  }
+
+  .whatsapp-float {
+    opacity: 0;
+    transform: translateY(20px) scale(0.9);
   }
 }
