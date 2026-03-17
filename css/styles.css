@@ -352,16 +352,21 @@ section {
 }
 
 .services-grid,
+.servicesesp-grid,
 .values-grid,
 .industries-grid,
 .contact-grid,
 .method-grid,
 .feature-split {
   display: grid;
-  gap: 22px;
+  gap: 15px;
 }
 
 .services-grid {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.servicesesp-grid {
   grid-template-columns: repeat(3, 1fr);
 }
 
