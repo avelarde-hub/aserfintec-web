@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
+
   const header = document.querySelector(".topbar");
   const whatsappFloat = document.querySelector(".whatsapp-float");
 
@@ -115,3 +116,4 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 });
+
