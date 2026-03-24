@@ -46,11 +46,9 @@ document.addEventListener("DOMContentLoaded", () => {
   internalLinks.forEach((link) => {
     link.addEventListener("click", (event) => {
       const targetId = link.getAttribute("href");
-
       if (!targetId || targetId === "#") return;
 
       const targetElement = document.querySelector(targetId);
-
       if (!targetElement) return;
 
       event.preventDefault();
@@ -58,13 +56,62 @@ document.addEventListener("DOMContentLoaded", () => {
         behavior: "smooth",
         block: "start",
       });
+
+      trackEvent("click_navegacion_interna", {
+        event_category: "navegacion",
+        event_label: targetId,
+      });
     });
   });
 
   if (whatsappFloat) {
-    window.setTimeout(() => {
+    whatsappFloat.style.opacity = "0";
+    whatsappFloat.style.transform = "translateY(16px)";
+    whatsappFloat.style.transition = "opacity 0.5s ease, transform 0.5s ease";
+
+    setTimeout(() => {
       whatsappFloat.style.opacity = "1";
-      whatsappFloat.style.transform = "translateY(0) scale(1)";
-    }, 700);
+      whatsappFloat.style.transform = "translateY(0)";
+    }, 900);
+  }
+
+  const whatsappLinks = document.querySelectorAll('a[href*="wa.me"]');
+  whatsappLinks.forEach((link) => {
+    link.addEventListener("click", () => {
+      trackEvent("click_whatsapp", {
+        event_category: "contacto",
+        event_label: link.classList.contains("whatsapp-float")
+          ? "boton_whatsapp_flotante"
+          : "boton_whatsapp_contacto",
+      });
+    });
+  });
+
+  const emailLinks = document.querySelectorAll('a[href^="mailto:"]');
+  emailLinks.forEach((link) => {
+    link.addEventListener("click", () => {
+      trackEvent("click_email", {
+        event_category: "contacto",
+        event_label: "correo_contacto",
+      });
+    });
+  });
+
+  const primaryButtons = document.querySelectorAll(".btn-primary, .btn-secondary");
+  primaryButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const label = button.textContent.trim().toLowerCase().replace(/\s+/g, "_");
+
+      trackEvent("click_boton", {
+        event_category: "interaccion",
+        event_label: label,
+      });
+    });
+  });
+
+  function trackEvent(eventName, params = {}) {
+    if (typeof window.gtag === "function") {
+      window.gtag("event", eventName, params);
+    }
   }
 });
