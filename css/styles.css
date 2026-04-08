@@ -658,58 +658,620 @@ section {
   }
 }
 
-@media (max-width: 720px) {
-  .nav {
+/* Tablets grandes y medianas (1024px y menores) */
+@media (max-width: 1024px) {
+  .container {
+    width: min(100% - 24px, 1000px);
+  }
+
+  section {
+    padding: 40px 0;
+  }
+
+  .hero {
+    padding: 72px 0 48px;
+  }
+
+  .hero-grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .hero-card {
+    padding: 24px;
+  }
+
+  .image-strip {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .image-tile {
+    min-height: 200px;
+  }
+
+  .services-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .servicesesp-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .feature-split {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    margin-top: 0;
+  }
+
+  .feature-image {
+    min-height: 350px;
+    order: -1;
+  }
+
+  .feature-copy {
+    padding: 28px;
+  }
+
+  .feature-copy h3 {
+    font-size: 1.6rem;
+  }
+
+  .method-grid,
+  .values-grid,
+  .industries-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .contact-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .cta-box {
+    grid-template-columns: 1fr;
+    padding: 36px;
+    gap: 18px;
+    align-items: flex-start;
+  }
+
+  .cta-box h2 {
+    font-size: clamp(1.5rem, 2.5vw, 2.2rem);
+  }
+
+  .brand-mark {
+    width: 80px;
+    height: 80px;
+  }
+
+  .section-header {
     flex-direction: column;
     align-items: flex-start;
   }
 
-  .menu {
-    gap: 12px;
-    justify-content: flex-start;
+  h1 {
+    font-size: clamp(2rem, 4vw, 3.5rem);
+  }
+
+  .lead {
+    font-size: 1rem;
+  }
+
+  .card {
+    padding: 24px;
+  }
+}
+
+/* Tablets (768px y menores) */
+@media (max-width: 768px) {
+  .container {
+    width: min(100% - 20px, 800px);
+  }
+
+  section {
+    padding: 32px 0;
   }
 
   .hero {
-    padding-top: 56px;
+    padding: 60px 0 40px;
   }
 
-  .hero-card,
-  .card,
-  .feature-copy,
-  .method-card,
-  .value-card,
-  .industry-card,
-  .cta-box {
-    padding: 22px;
+  .topbar {
+    position: relative;
   }
 
-  h1 {
-    font-size: 2.3rem;
+  .nav {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 12px 0;
   }
 
-  .hero-card-top {
-    grid-template-columns: 1fr;
+  .brand {
+    width: 100%;
+  }
+
+  .menu {
+    width: 100%;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: flex-start;
+  }
+
+  .menu a {
+    font-size: 0.9rem;
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    transition: background 0.25s ease;
+  }
+
+  .menu a:hover {
+    background: rgba(7, 184, 176, 0.1);
+  }
+
+  .menu .btn {
+    width: 100%;
   }
 
   .brand-mark {
-    width: 72px;
-    height: 72px;
+    width: 70px;
+    height: 70px;
+  }
+
+  .brand-text strong {
+    font-size: 0.92rem;
+  }
+
+  .brand-text span {
+    font-size: 0.72rem;
+  }
+
+  .hero-actions {
+    gap: 10px;
+  }
+
+  .hero-actions .btn {
+    width: 100%;
+    font-size: 0.95rem;
+  }
+
+  .hero-notes {
+    gap: 10px;
+  }
+
+  .pill {
+    font-size: 0.88rem;
+    padding: 8px 12px;
+  }
+
+  .image-strip {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .image-tile {
+    min-height: 180px;
+  }
+
+  .image-tile span {
+    font-size: 0.95rem;
+  }
+
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .servicesesp-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .card {
+    padding: 20px;
+  }
+
+  .card h3 {
+    font-size: 1.1rem;
+  }
+
+  .card p {
+    font-size: 0.95rem;
+  }
+
+  .card ul {
+    padding-left: 16px;
+    font-size: 0.95rem;
+  }
+
+  .section-header h2 {
+    font-size: clamp(1.5rem, 2.5vw, 2rem);
+  }
+
+  .section-header p {
+    font-size: 0.95rem;
+    max-width: 100%;
+  }
+
+  .feature-split {
+    gap: 20px;
+  }
+
+  .feature-image {
+    min-height: 280px;
+  }
+
+  .feature-copy {
+    padding: 24px;
+  }
+
+  .feature-copy h3 {
+    font-size: 1.4rem;
+  }
+
+  .feature-copy p {
+    font-size: 0.95rem;
+  }
+
+  .method-grid,
+  .values-grid,
+  .industries-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .method-card,
+  .value-card,
+  .industry-card {
+    padding: 20px;
+  }
+
+  .method-card strong,
+  .value-card strong,
+  .industry-card strong {
+    font-size: 1rem;
+  }
+
+  .cta-box {
+    padding: 28px;
+    gap: 16px;
+  }
+
+  .cta-box h2 {
+    font-size: clamp(1.3rem, 2vw, 1.8rem);
+    margin-bottom: 8px;
+  }
+
+  .cta-box p {
+    font-size: 0.95rem;
+  }
+
+  .cta-box .btn {
+    white-space: nowrap;
+    font-size: 0.9rem;
+    padding: 12px 18px;
+  }
+
+  .contact-grid {
+    gap: 16px;
+  }
+
+  .contact-card h3 {
+    font-size: 1.2rem;
+  }
+
+  .contact-item {
+    padding: 14px 16px;
+  }
+
+  .footer-bar {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .footer-bar span {
+    font-size: 0.88rem;
   }
 
   .whatsapp-float {
-    width: 58px;
-    height: 58px;
-    right: 16px;
-    bottom: 16px;
+    width: 56px;
+    height: 56px;
+    right: 14px;
+    bottom: 14px;
   }
 
   .whatsapp-float svg {
-    width: 28px;
-    height: 28px;
+    width: 26px;
+    height: 26px;
+  }
+}
+
+/* Móviles (480px y menores) */
+@media (max-width: 480px) {
+  .container {
+    width: min(100% - 16px, 100%);
+  }
+
+  section {
+    padding: 24px 0;
+  }
+
+  .hero {
+    padding: 48px 0 32px;
+    background-attachment: fixed;
+  }
+
+  .topbar {
+    position: relative;
+  }
+
+  .nav {
+    gap: 12px;
+    padding: 10px 0;
+  }
+
+  .brand-mark {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+  }
+
+  .brand-text strong {
+    font-size: 0.85rem;
+  }
+
+  .brand-text span {
+    font-size: 0.68rem;
+  }
+
+  h1 {
+    font-size: clamp(1.5rem, 3vw, 2.2rem);
+    margin: 12px 0 12px;
+  }
+
+  .eyebrow {
+    font-size: 0.78rem;
+    padding: 6px 12px;
+  }
+
+  .lead {
+    font-size: 0.95rem;
+    margin-bottom: 20px;
+  }
+
+  .hero-actions {
+    gap: 8px;
+    margin-bottom: 20px;
+    flex-direction: column;
+  }
+
+  .hero-actions .btn {
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 0.9rem;
+  }
+
+  .pill {
+    font-size: 0.8rem;
+    padding: 6px 10px;
+  }
+
+  .hero-notes {
+    gap: 8px;
+  }
+
+  .hero-card {
+    padding: 18px;
+  }
+
+  .hero-card h3 {
+    font-size: 1.1rem;
+  }
+
+  .hero-card-top {
+    gap: 14px;
+    margin-bottom: 16px;
+  }
+
+  .hero-card-top img {
+    width: 70px;
+    height: 70px;
+  }
+
+  .service-preview {
+    gap: 10px;
+    margin-top: 14px;
+  }
+
+  .service-preview .item {
+    padding: 12px 14px;
+    gap: 10px;
+  }
+
+  .service-preview .num {
+    width: 30px;
+    height: 30px;
+    font-size: 0.8rem;
+    flex: 0 0 30px;
+  }
+
+  .image-strip {
+    gap: 12px;
+    margin-top: 18px;
+  }
+
+  .image-tile {
+    min-height: 150px;
+  }
+
+  .image-tile span {
+    font-size: 0.88rem;
+    left: 12px;
+    bottom: 12px;
+    right: 12px;
+  }
+
+  .section-header {
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+
+  .section-header h2 {
+    font-size: clamp(1.3rem, 2vw, 1.6rem);
+  }
+
+  .section-header p {
+    font-size: 0.9rem;
+  }
+
+  .services-grid,
+  .servicesesp-grid,
+  .method-grid,
+  .values-grid,
+  .industries-grid,
+  .contact-grid {
+    gap: 12px;
+  }
+
+  .card {
+    padding: 16px;
+  }
+
+  .card .number {
+    width: 40px;
+    height: 40px;
+    font-size: 0.78rem;
+    margin-bottom: 12px;
+  }
+
+  .card h3 {
+    font-size: 1rem;
+    margin-bottom: 8px;
+  }
+
+  .card p {
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+  }
+
+  .card ul {
+    padding-left: 14px;
+    font-size: 0.9rem;
+  }
+
+  .card ul li + li {
+    margin-top: 6px;
+  }
+
+  .highlight {
+    font-size: 0.85rem;
+    padding: 8px 12px;
+    margin-top: 12px;
+  }
+
+  .feature-split {
+    gap: 16px;
+  }
+
+  .feature-image {
+    min-height: 220px;
+  }
+
+  .feature-copy {
+    padding: 18px;
+  }
+
+  .feature-copy h3 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+  }
+
+  .feature-copy p {
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+  }
+
+  .feature-copy .btn {
+    width: 100%;
+    padding: 12px 16px;
+  }
+
+  .method-card,
+  .value-card,
+  .industry-card {
+    padding: 16px;
+  }
+
+  .method-card strong,
+  .value-card strong,
+  .industry-card strong {
+    font-size: 0.95rem;
+    margin-bottom: 8px;
+  }
+
+  .method-card p,
+  .value-card p,
+  .industry-card p {
+    font-size: 0.9rem;
+  }
+
+  .cta-box {
+    padding: 20px;
+    gap: 12px;
+  }
+
+  .cta-box h2 {
+    font-size: clamp(1.1rem, 2vw, 1.5rem);
+    margin-bottom: 6px;
+  }
+
+  .cta-box p {
+    font-size: 0.9rem;
+  }
+
+  .cta-box .btn {
+    font-size: 0.85rem;
+    padding: 10px 14px;
+  }
+
+  .contact-card h3 {
+    font-size: 1.1rem;
+  }
+
+  .contact-item {
+    padding: 12px 14px;
+  }
+
+  .contact-item strong {
+    font-size: 0.9rem;
+  }
+
+  .contact-item span {
+    font-size: 0.85rem;
+  }
+
+  .footer {
+    padding: 20px 0 28px;
+  }
+
+  .footer-bar span {
+    font-size: 0.8rem;
   }
 
   .whatsapp-float {
-    opacity: 0;
-    transform: translateY(20px) scale(0.9);
+    width: 50px;
+    height: 50px;
+    right: 12px;
+    bottom: 12px;
+  }
+
+  .whatsapp-float svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .btn {
+    padding: 12px 18px;
+    font-size: 0.9rem;
   }
 }
