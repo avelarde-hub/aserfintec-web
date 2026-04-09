@@ -110,6 +110,242 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
+  // Contact Form Handler with State Management
+  class ContactFormState {
+    constructor(formElement) {
+      this.form = formElement;
+      this.state = {
+        name: "",
+        email: "",
+        company: "",
+        phone: "",
+        service: "",
+        message: "",
+        consent: false,
+        errors: {},
+        isSubmitting: false,
+        submitted: false,
+      };
+
+      this.inputs = {
+        name: formElement.querySelector("#formName"),
+        email: formElement.querySelector("#formEmail"),
+        company: formElement.querySelector("#formCompany"),
+        phone: formElement.querySelector("#formPhone"),
+        service: formElement.querySelector("#formService"),
+        message: formElement.querySelector("#formMessage"),
+        consent: formElement.querySelector("#formConsent"),
+      };
+
+      this.statusDiv = formElement.querySelector("#formStatus");
+      this.submitBtn = formElement.querySelector(".form-submit");
+
+      this.init();
+    }
+
+    init() {
+      // Bind input change events
+      Object.entries(this.inputs).forEach(([key, input]) => {
+        if (!input) return;
+
+        input.addEventListener("change", (e) => {
+          this.setState(key, e.target.type === "checkbox" ? e.target.checked : e.target.value);
+        });
+
+        input.addEventListener("input", (e) => {
+          this.setState(key, e.target.type === "checkbox" ? e.target.checked : e.target.value);
+          this.clearError(key);
+        });
+      });
+
+      // Bind form submission
+      this.form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        this.handleSubmit();
+      });
+    }
+
+    setState(key, value) {
+      this.state[key] = value;
+      if (this.inputs[key]) {
+        this.inputs[key].value = value;
+      }
+    }
+
+    clearError(key) {
+      const errorElement = document.getElementById(`${key}Error`);
+      if (errorElement) {
+        errorElement.textContent = "";
+      }
+      if (this.inputs[key]) {
+        this.inputs[key].classList.remove("is-invalid");
+      }
+    }
+
+    setError(key, message) {
+      this.state.errors[key] = message;
+      const errorElement = document.getElementById(`${key}Error`);
+      if (errorElement) {
+        errorElement.textContent = message;
+      }
+      if (this.inputs[key]) {
+        this.inputs[key].classList.add("is-invalid");
+      }
+    }
+
+    validate() {
+      this.state.errors = {};
+      let isValid = true;
+
+      // Name validation
+      if (!this.state.name.trim()) {
+        this.setError("name", "El nombre es requerido");
+        isValid = false;
+      } else if (this.state.name.trim().length < 3) {
+        this.setError("name", "El nombre debe tener al menos 3 caracteres");
+        isValid = false;
+      }
+
+      // Email validation
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!this.state.email.trim()) {
+        this.setError("email", "El correo es requerido");
+        isValid = false;
+      } else if (!emailRegex.test(this.state.email)) {
+        this.setError("email", "Ingresa un correo válido");
+        isValid = false;
+      }
+
+      // Service validation
+      if (!this.state.service.trim()) {
+        this.setError("service", "Selecciona un servicio");
+        isValid = false;
+      }
+
+      // Message validation
+      if (!this.state.message.trim()) {
+        this.setError("message", "Cuéntanos sobre tu necesidad");
+        isValid = false;
+      } else if (this.state.message.trim().length < 10) {
+        this.setError("message", "El mensaje debe tener al menos 10 caracteres");
+        isValid = false;
+      }
+
+      // Consent validation
+      if (!this.state.consent) {
+        this.setError("consent", "Debes aceptar la política de privacidad");
+        isValid = false;
+      }
+
+      return isValid;
+    }
+
+    async handleSubmit() {
+      this.state.isSubmitting = true;
+      this.submitBtn.disabled = true;
+      this.submitBtn.textContent = "Enviando...";
+      this.statusDiv.className = "form-status";
+      this.statusDiv.textContent = "";
+
+      if (!this.validate()) {
+        this.state.isSubmitting = false;
+        this.submitBtn.disabled = false;
+        this.submitBtn.textContent = "Enviar solicitud";
+        return;
+      }
+
+      try {
+        // Simulate API call with timeout
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+
+        // Prepare form data
+        const formData = {
+          name: this.state.name,
+          email: this.state.email,
+          company: this.state.company,
+          phone: this.state.phone,
+          service: this.state.service,
+          message: this.state.message,
+          timestamp: new Date().toISOString(),
+        };
+
+        console.log("Form submitted:", formData);
+
+        // Track event
+        trackEvent("contactform_submit", {
+          event_category: "contacto",
+          event_label: this.state.service,
+        });
+
+        // Show success message
+        this.showSuccess(
+          "✓ Tu solicitud ha sido enviada exitosamente. Nos contactaremos en las próximas 24 horas."
+        );
+
+        // Reset form after 2 seconds
+        setTimeout(() => {
+          this.resetForm();
+        }, 2000);
+      } catch (error) {
+        console.error("Form submission error:", error);
+        this.showError(
+          "✕ Ha ocurrido un error. Por favor, intenta nuevamente o contáctanos directamente."
+        );
+      } finally {
+        this.state.isSubmitting = false;
+        this.submitBtn.disabled = false;
+        this.submitBtn.textContent = "Enviar solicitud";
+      }
+    }
+
+    showSuccess(message) {
+      this.statusDiv.className = "form-status success";
+      this.statusDiv.textContent = message;
+      this.state.submitted = true;
+    }
+
+    showError(message) {
+      this.statusDiv.className = "form-status error";
+      this.statusDiv.textContent = message;
+    }
+
+    resetForm() {
+      this.form.reset();
+      this.state = {
+        name: "",
+        email: "",
+        company: "",
+        phone: "",
+        service: "",
+        message: "",
+        consent: false,
+        errors: {},
+        isSubmitting: false,
+        submitted: false,
+      };
+      this.statusDiv.className = "form-status";
+      this.statusDiv.textContent = "";
+    }
+  }
+
+  // Initialize form
+  const contactForm = document.getElementById("contactForm");
+  if (contactForm) {
+    new ContactFormState(contactForm);
+  }
+
+  const primaryButtons = document.querySelectorAll(".btn-primary, .btn-secondary");
+  primaryButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const label = button.textContent.trim().toLowerCase().replace(/\s+/g, "_");
+
+      trackEvent("click_boton", {
+        event_category: "interaccion",
+        event_label: label,
+      });
+    });
+  });
+
   function trackEvent(eventName, params = {}) {
     if (typeof window.gtag === "function") {
       window.gtag("event", eventName, params);

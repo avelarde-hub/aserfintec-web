@@ -574,6 +574,154 @@ section {
   margin-bottom: 4px;
 }
 
+/* Formulario de Contacto */
+.contact-form-card {
+  padding: 32px;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--secondary);
+  display: block;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.55);
+  transition: all 0.25s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  background: white;
+  box-shadow: 0 0 0 3px rgba(7, 184, 176, 0.1);
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: rgba(95, 117, 128, 0.6);
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.form-group select {
+  cursor: pointer;
+}
+
+.form-group select option {
+  color: var(--text);
+  background: white;
+}
+
+.form-checkbox {
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.form-checkbox input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
+  cursor: pointer;
+  accent-color: var(--primary);
+}
+
+.checkbox-label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.form-error {
+  font-size: 0.85rem;
+  color: #d32f2f;
+  min-height: 18px;
+  display: block;
+}
+
+.form-group input.is-invalid,
+.form-group select.is-invalid,
+.form-group textarea.is-invalid {
+  border-color: #d32f2f;
+  background: rgba(211, 47, 47, 0.04);
+}
+
+.form-status {
+  padding: 14px 16px;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  min-height: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.form-status.success {
+  background: rgba(76, 175, 80, 0.1);
+  color: #2e7d32;
+  border: 1px solid rgba(76, 175, 80, 0.3);
+}
+
+.form-status.error {
+  background: rgba(211, 47, 47, 0.1);
+  color: #d32f2f;
+  border: 1px solid rgba(211, 47, 47, 0.3);
+}
+
+.form-status::before {
+  content: "✓";
+  font-weight: 800;
+}
+
+.form-status.error::before {
+  content: "✕";
+}
+
+.form-submit {
+  width: 100%;
+  padding: 14px 22px;
+  margin-top: 12px;
+}
+
+.form-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.contact-section {
+  background: linear-gradient(180deg, #f8fbfc 0%, rgba(247, 251, 252, 0.8) 100%);
+}
+
 .footer {
   padding: 28px 0 40px;
   color: var(--muted);
@@ -760,6 +908,10 @@ section {
 
   .card {
     padding: 24px;
+  }
+
+  .contact-form-card {
+    padding: 28px;
   }
 }
 
@@ -962,6 +1114,28 @@ section {
 
   .contact-item {
     padding: 14px 16px;
+  }
+
+  .contact-form-card {
+    padding: 22px;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    font-size: 0.92rem;
+  }
+
+  .form-submit {
+    padding: 12px 18px;
+  }
+
+  .testimonial-card {
+    padding: 22px;
+  }
+
+  .testimonial-text {
+    font-size: 0.95rem;
   }
 
   .footer-bar {
@@ -1169,6 +1343,33 @@ section {
     margin-top: 12px;
   }
 
+  .testimonial-card {
+    padding: 16px;
+    gap: 12px;
+  }
+
+  .testimonial-avatar {
+    width: 40px;
+    height: 40px;
+    font-size: 0.85rem;
+  }
+
+  .testimonial-name {
+    font-size: 0.95rem;
+  }
+
+  .testimonial-role {
+    font-size: 0.8rem;
+  }
+
+  .testimonial-text {
+    font-size: 0.88rem;
+  }
+
+  .metric {
+    font-size: 0.78rem;
+  }
+
   .feature-split {
     gap: 16px;
   }
@@ -1248,6 +1449,48 @@ section {
 
   .contact-item span {
     font-size: 0.85rem;
+  }
+
+  .contact-form-card {
+    padding: 16px;
+  }
+
+  .form-group label {
+    font-size: 0.9rem;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    padding: 10px 12px;
+    font-size: 0.9rem;
+  }
+
+  .form-group textarea {
+    min-height: 100px;
+  }
+
+  .form-checkbox input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+  }
+
+  .checkbox-label {
+    font-size: 0.88rem;
+  }
+
+  .form-error {
+    font-size: 0.8rem;
+  }
+
+  .form-status {
+    font-size: 0.9rem;
+    padding: 12px 14px;
+  }
+
+  .form-submit {
+    padding: 12px 16px;
+    font-size: 0.9rem;
   }
 
   .footer {

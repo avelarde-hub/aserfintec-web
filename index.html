@@ -353,12 +353,12 @@
       </div>
     </section>
 
-    <section id="contacto">
+    <section id="contacto" class="contact-section">
       <div class="container contact-grid">
         <div class="card contact-card">
-          <h3>Hablemos de su organización</h3>
+          <h3>Convirtamos desafíos en oportunidades</h3>
           <p>
-            Si requiere una consultoría orientada a control, eficiencia, mejora operativa o fortalecimiento tecnológico, ASERFINTEC está lista para acompañarle.
+            Complete el formulario y un miembro de nuestro equipo se contactará en las próximas 24 horas para entender suas necesidades y proponer una hoja de ruta clara.
           </p>
           <div class="contact-list">
             <div class="contact-item">
@@ -366,7 +366,7 @@
               <span>0992715510</span>
             </div>
             <div class="contact-item">
-              <strong>Correo electrónico</strong>
+              <strong>Correo</strong>
               <span>aserfintec@hotmail.com</span>
             </div>
             <div class="contact-item">
@@ -376,23 +376,93 @@
           </div>
         </div>
 
-        <div class="card contact-card">
-          <h3>Mensaje de valor</h3>
-          <p>
-            En un entorno donde cada decisión cuenta, contar con una consultoría que combine criterio técnico, comprensión del negocio y orientación a resultados marca una diferencia real.
-          </p>
-          <p>
-            ASERFINTEC trabaja para que sus clientes logren una operación más sólida, decisiones mejor fundamentadas y una gestión preparada para crecer con orden y sostenibilidad.
-          </p>
-          <a class="btn btn-primary" href="mailto:aserfintec@hotmail.com">Escribir ahora</a>
-          <a
-            class="btn btn-whatsapp"
-            href="https://wa.me/593992715510?text=Hola,%20deseo%20informaci%C3%B3n%20sobre%20los%20servicios%20de%20ASERFINTEC"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Consultar por WhatsApp
-          </a>
+        <div class="card contact-form-card">
+          <form id="contactForm" class="contact-form" novalidate>
+            <div class="form-group">
+              <label for="formName">Nombre completo *</label>
+              <input
+                type="text"
+                id="formName"
+                name="name"
+                placeholder="Ej: Juan Pérez"
+                required
+              />
+              <span class="form-error" id="nameError"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="formEmail">Correo electrónico *</label>
+              <input
+                type="email"
+                id="formEmail"
+                name="email"
+                placeholder="su@empresa.com"
+                required
+              />
+              <span class="form-error" id="emailError"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="formCompany">Empresa o Negocio</label>
+              <input
+                type="text"
+                id="formCompany"
+                name="company"
+                placeholder="Ej: Mi Empresa S.A."
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="formPhone">Teléfono</label>
+              <input
+                type="tel"
+                id="formPhone"
+                name="phone"
+                placeholder="0992715510"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="formService">Área de interés *</label>
+              <select id="formService" name="service" required>
+                <option value="">Selecciona un servicio</option>
+                <option value="finanzas">Consultoría financiero-contable</option>
+                <option value="software">Desarrollo de software a medida</option>
+                <option value="ti">Gestión de servicios TI</option>
+                <option value="kpis">KPIs, OKRs y SLAs</option>
+                <option value="proyectos">Gestión de proyectos</option>
+                <option value="diagnostico">Diagnóstico organizacional</option>
+                <option value="otro">Otro</option>
+              </select>
+              <span class="form-error" id="serviceError"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="formMessage">Cuéntanos sobre tu necesidad *</label>
+              <textarea
+                id="formMessage"
+                name="message"
+                placeholder="Describa brevemente el desafío que enfrenta..."
+                rows="4"
+                required
+              ></textarea>
+              <span class="form-error" id="messageError"></span>
+            </div>
+
+            <div class="form-group form-checkbox">
+              <input type="checkbox" id="formConsent" name="consent" required />
+              <label for="formConsent" class="checkbox-label">
+                Autorizo el contacto y acepto la política de privacidad
+              </label>
+              <span class="form-error" id="consentError"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary form-submit">
+              Enviar solicitud
+            </button>
+
+            <div id="formStatus" class="form-status"></div>
+          </form>
         </div>
       </div>
     </section>
