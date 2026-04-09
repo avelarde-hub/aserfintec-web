@@ -1,4 +1,30 @@
 document.addEventListener("DOMContentLoaded", () => {
+  const EMAILJS_PUBLIC_KEY = "5-A5vlAWko_mEhev2"; // Public Key from EmailJS Account -> General
+  const EMAILJS_SERVICE_ID = "service_va0bgpj"; // Your EmailJS Service ID
+  const EMAILJS_TEMPLATE_ID = "template_mg136jl"; // Your EmailJS Template ID
+  const RECAPTCHA_SITE_KEY = "RECAPTCHA_SITE_KEY_AQUI"; // ReCAPTCHA v3 Site Key
+
+  const recaptchaPromise = RECAPTCHA_SITE_KEY !== "RECAPTCHA_SITE_KEY_AQUI"
+    ? new Promise((resolve, reject) => {
+        const script = document.createElement("script");
+        script.src = `https://www.google.com/recaptcha/api.js?render=${RECAPTCHA_SITE_KEY}`;
+        script.async = true;
+        script.defer = true;
+        script.onload = () => resolve();
+        script.onerror = () => reject(new Error("No se pudo cargar reCAPTCHA."));
+        document.head.appendChild(script);
+      })
+    : Promise.resolve();
+
+  if (EMAILJS_SERVICE_ID === "SERVICE_ID_AQUI" || EMAILJS_TEMPLATE_ID === "TEMPLATE_ID_AQUI") {
+    console.error("EmailJS no puede enviar porque Service ID o Template ID no están configurados. Actualiza js/main.js con los valores reales.");
+  }
+
+  if (window.emailjs && typeof emailjs.init === "function") {
+    emailjs.init(EMAILJS_PUBLIC_KEY);
+  } else {
+    console.error("EmailJS no se cargó correctamente. Revisa la carga del script de EmailJS.");
+  }
 
   const header = document.querySelector(".topbar");
   const whatsappFloat = document.querySelector(".whatsapp-float");
@@ -135,10 +161,12 @@ document.addEventListener("DOMContentLoaded", () => {
         service: formElement.querySelector("#formService"),
         message: formElement.querySelector("#formMessage"),
         consent: formElement.querySelector("#formConsent"),
+        honeypot: formElement.querySelector("#formBotField"),
       };
 
       this.statusDiv = formElement.querySelector("#formStatus");
       this.submitBtn = formElement.querySelector(".form-submit");
+      this.toast = document.getElementById("toastMessage");
 
       this.init();
     }
@@ -222,6 +250,21 @@ document.addEventListener("DOMContentLoaded", () => {
         isValid = false;
       }
 
+      // Company validation (optional)
+      if (this.state.company.trim() && this.state.company.trim().length < 2) {
+        this.setError("company", "Introduce el nombre de la empresa o deja el campo vacío");
+        isValid = false;
+      }
+
+      // Phone validation (optional)
+      if (this.state.phone.trim()) {
+        const phonePattern = /^[0-9+()\s-]{7,20}$/;
+        if (!phonePattern.test(this.state.phone.trim())) {
+          this.setError("phone", "Ingresa un teléfono válido");
+          isValid = false;
+        }
+      }
+
       // Message validation
       if (!this.state.message.trim()) {
         this.setError("message", "Cuéntanos sobre tu necesidad");
@@ -234,6 +277,12 @@ document.addEventListener("DOMContentLoaded", () => {
       // Consent validation
       if (!this.state.consent) {
         this.setError("consent", "Debes aceptar la política de privacidad");
+        isValid = false;
+      }
+
+      // Honeypot anti-spam validation
+      if (this.inputs.honeypot && this.inputs.honeypot.value.trim()) {
+        this.showError("Spam detectado. Por favor, intenta nuevamente.");
         isValid = false;
       }
 
@@ -255,23 +304,29 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       try {
-        const subject = `Solicitud de contacto desde ASERFINTEC: ${this.state.service}`;
-        const bodyLines = [
-          `Nombre: ${this.state.name}`,
-          `Correo: ${this.state.email}`,
-          `Empresa: ${this.state.company}`,
-          `Teléfono: ${this.state.phone}`,
-          `Servicio de interés: ${this.state.service}`,
-          "",
-          "Mensaje:",
-          this.state.message,
-        ];
+        const recaptchaToken = await this.getRecaptchaToken();
 
-        const mailtoLink = `mailto:aserfintec@hotmail.com?subject=${encodeURIComponent(
-          subject
-        )}&body=${encodeURIComponent(bodyLines.join("\n"))}`;
+        const templateParams = {
+          from_name: this.state.name,
+          from_email: this.state.email,
+          company: this.state.company,
+          phone: this.state.phone,
+          service: this.state.service,
+          message: this.state.message,
+          to_email: "aserfintec@hotmail.com",
+          reply_to: this.state.email, // Para que puedas responder directamente al cliente
+          recaptcha_token: recaptchaToken || "",
+        };
 
-        window.location.href = mailtoLink;
+        if (!window.emailjs || typeof emailjs.send !== "function") {
+          throw new Error("EmailJS no está disponible. Verifica la carga del script.");
+        }
+
+        await emailjs.send(
+          EMAILJS_SERVICE_ID,
+          EMAILJS_TEMPLATE_ID,
+          templateParams
+        );
 
         trackEvent("contactform_submit", {
           event_category: "contacto",
@@ -279,17 +334,24 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         this.showSuccess(
-          "✓ Se ha generado un correo para enviar tu solicitud. Completa el mensaje y envíalo en tu cliente de correo."
+          "✓ Tu solicitud ha sido enviada exitosamente. Nos contactaremos en las próximas 24 horas."
         );
+        this.showToast("Solicitud enviada. Revisa tu bandeja de entrada y gracias por contactarnos.", "success");
 
         setTimeout(() => {
           this.resetForm();
         }, 2000);
       } catch (error) {
         console.error("Form submission error:", error);
+        const message = error && error.text ? error.text : error.message || "Error desconocido al enviar el formulario.";
         this.showError(
-          "✕ No se pudo abrir el cliente de correo. Por favor, revisa tu configuración de email o contáctanos directamente."
+          `✕ Ha ocurrido un error al enviar el correo: ${message}. Por favor, intenta nuevamente o contáctanos directamente.`
         );
+        trackEvent("contactform_error", {
+          event_category: "contacto",
+          event_label: this.state.service || "sin_servicio",
+          error_message: message,
+        });
       } finally {
         this.state.isSubmitting = false;
         this.submitBtn.disabled = false;
@@ -306,6 +368,35 @@ document.addEventListener("DOMContentLoaded", () => {
     showError(message) {
       this.statusDiv.className = "form-status error";
       this.statusDiv.textContent = message;
+      this.showToast(message, "error");
+    }
+
+    showToast(message, type = "success") {
+      if (!this.toast) return;
+      this.toast.textContent = message;
+      this.toast.className = `toast show ${type}`;
+      clearTimeout(this.toastTimeout);
+      this.toastTimeout = setTimeout(() => {
+        this.toast.classList.remove("show");
+      }, 5200);
+    }
+
+    async getRecaptchaToken() {
+      if (RECAPTCHA_SITE_KEY === "RECAPTCHA_SITE_KEY_AQUI") {
+        return null;
+      }
+
+      try {
+        await recaptchaPromise;
+        if (typeof grecaptcha === "undefined" || !grecaptcha.execute) {
+          console.warn("reCAPTCHA no está disponible.");
+          return null;
+        }
+        return await grecaptcha.execute(RECAPTCHA_SITE_KEY, { action: "contact" });
+      } catch (error) {
+        console.warn("No se pudo obtener el token de reCAPTCHA:", error);
+        return null;
+      }
     }
 
     resetForm() {

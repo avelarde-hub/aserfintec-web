@@ -449,6 +449,17 @@
               <span class="form-error" id="messageError"></span>
             </div>
 
+            <div class="honeypot-field">
+              <label for="formBotField">No completar este campo</label>
+              <input
+                type="text"
+                id="formBotField"
+                name="bot_field"
+                autocomplete="off"
+                tabindex="-1"
+              />
+            </div>
+
             <div class="form-group form-checkbox">
               <input type="checkbox" id="formConsent" name="consent" required />
               <label for="formConsent" class="checkbox-label">
@@ -456,10 +467,12 @@
               </label>
               <span class="form-error" id="consentError"></span>
             </div>
-
+      
             <button type="submit" class="btn btn-primary form-submit">
               Enviar solicitud
             </button>
+
+            <div id="formStatus" class="form-status"></div>
           
           </form>
         </div>
@@ -487,6 +500,6 @@
     </svg>
   </a>
 
-  <script src="./js/main.js"></script>
-</body>
-</html>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <script type="text/javascript" src="./js/main.js"></script>
+  <div id="toastMessage" class="toast" aria-live="polite" aria-atomic="true"></div>
