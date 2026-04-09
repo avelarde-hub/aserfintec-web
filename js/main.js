@@ -255,41 +255,40 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       try {
-        // Simulate API call with timeout
-        await new Promise((resolve) => setTimeout(resolve, 1000));
+        const subject = `Solicitud de contacto desde ASERFINTEC: ${this.state.service}`;
+        const bodyLines = [
+          `Nombre: ${this.state.name}`,
+          `Correo: ${this.state.email}`,
+          `Empresa: ${this.state.company}`,
+          `Teléfono: ${this.state.phone}`,
+          `Servicio de interés: ${this.state.service}`,
+          "",
+          "Mensaje:",
+          this.state.message,
+        ];
 
-        // Prepare form data
-        const formData = {
-          name: this.state.name,
-          email: this.state.email,
-          company: this.state.company,
-          phone: this.state.phone,
-          service: this.state.service,
-          message: this.state.message,
-          timestamp: new Date().toISOString(),
-        };
+        const mailtoLink = `mailto:aserfintec@hotmail.com?subject=${encodeURIComponent(
+          subject
+        )}&body=${encodeURIComponent(bodyLines.join("\n"))}`;
 
-        console.log("Form submitted:", formData);
+        window.location.href = mailtoLink;
 
-        // Track event
         trackEvent("contactform_submit", {
           event_category: "contacto",
           event_label: this.state.service,
         });
 
-        // Show success message
         this.showSuccess(
-          "✓ Tu solicitud ha sido enviada exitosamente. Nos contactaremos en las próximas 24 horas."
+          "✓ Se ha generado un correo para enviar tu solicitud. Completa el mensaje y envíalo en tu cliente de correo."
         );
 
-        // Reset form after 2 seconds
         setTimeout(() => {
           this.resetForm();
         }, 2000);
       } catch (error) {
         console.error("Form submission error:", error);
         this.showError(
-          "✕ Ha ocurrido un error. Por favor, intenta nuevamente o contáctanos directamente."
+          "✕ No se pudo abrir el cliente de correo. Por favor, revisa tu configuración de email o contáctanos directamente."
         );
       } finally {
         this.state.isSubmitting = false;
@@ -333,18 +332,6 @@ document.addEventListener("DOMContentLoaded", () => {
   if (contactForm) {
     new ContactFormState(contactForm);
   }
-
-  const primaryButtons = document.querySelectorAll(".btn-primary, .btn-secondary");
-  primaryButtons.forEach((button) => {
-    button.addEventListener("click", () => {
-      const label = button.textContent.trim().toLowerCase().replace(/\s+/g, "_");
-
-      trackEvent("click_boton", {
-        event_category: "interaccion",
-        event_label: label,
-      });
-    });
-  });
 
   function trackEvent(eventName, params = {}) {
     if (typeof window.gtag === "function") {
